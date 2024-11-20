@@ -12,6 +12,8 @@ const appPromise = async () => {
   app.use(express.json({ limit: "100mb" }));
   app.use(express.static(path.join(__dirname, "../public")));
   app.use(cors());
+  app.get("/demo", (_req, res) => res.status(200).send("working properly"));
+
   app.use("/api", router);
 
   await mongoose
