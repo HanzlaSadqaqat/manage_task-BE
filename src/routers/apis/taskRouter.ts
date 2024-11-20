@@ -12,13 +12,13 @@ taskRouter.post("/", async (req: Request, res: Response) => {
     const response: verifyResponse = await controller.taskDetail(body);
     return res.status(response.code).send(response.message);
   } catch (err) {
+    console.log(err);
     return res.status(err.code).send(err.message);
   }
 });
 taskRouter.get("/detail", async (_req: Request, res: Response) => {
   try {
     const response: getDetailResponse | null = await controller.getTaskDetail();
-    console.log(response.data);
 
     return res.status(response.code).send(response.data);
   } catch (error) {
