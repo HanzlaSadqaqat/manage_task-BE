@@ -13,11 +13,7 @@ taskRouter.post("/", async (req: Request, res: Response) => {
     res.status(response.code).send(response.message);
   } catch (err) {
     console.log(err);
-<<<<<<< HEAD:src/api/routers/task.routes.ts
     res.status(err.code).send(err.message);
-=======
-    return res.status(err.code).send(err.message);
->>>>>>> aa687a688b04e6e2fd18cb3a9a3c7d14e8b475d8:src/routers/apis/taskRouter.ts
   }
 });
 taskRouter.get("/detail", async (_req: Request, res: Response) => {
