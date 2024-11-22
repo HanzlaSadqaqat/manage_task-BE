@@ -10,6 +10,17 @@ import "./config/passport";
 const app = express();
 
 dotenv.config();
+<<<<<<< HEAD
+=======
+const appPromise = async () => {
+  const port = process.env.PORT || 8080;
+  app.use(express.json({ limit: "100mb" }));
+  app.use(express.static(path.join(__dirname, "../public")));
+  app.use(cors());
+  app.get("/demo", (_req, res) => res.status(200).send("working properly"));
+
+  app.use("/api", router);
+>>>>>>> aa687a688b04e6e2fd18cb3a9a3c7d14e8b475d8
 
 app.use(
   session({
