@@ -2,19 +2,22 @@ import Task, {
   getDetailResponse,
   taskDocument,
   verifyResponse,
-} from "../models/TaskModel";
+} from "../../models/TaskModel";
 import { Types } from "mongoose";
 
 export class taskController {
+  // create task
   async taskDetail(body: taskDocument): Promise<verifyResponse> {
     const { title, description, email } = body;
-    const checkTask= await Task.findOne({title});
-    if(checkTask){
-      throw{
+    const checkTask = await Task.findOne({ title, email });
+    if (checkTask) {
+      throw {
         code: 403,
-        message:"task is already exist"
-      }
+        message: "task is already exist",
+      };
     }
+    console.log("task");
+
     const newTask: taskDocument = new Task({
       title,
       description,
@@ -27,6 +30,8 @@ export class taskController {
       message: "Task save successfully",
     };
   }
+
+  // get task detail
   async getTaskDetail(): Promise<getDetailResponse> {
     const result = await Task.find();
 
@@ -35,6 +40,8 @@ export class taskController {
       data: result,
     };
   }
+
+  // edit task details
   async editTaskDetails(body): Promise<verifyResponse> {
     const { title, description, id } = body;
     if (!id) {
@@ -58,8 +65,9 @@ export class taskController {
       message: "Data updated successfully",
     };
   }
+
+  // delete task
   async deleteTask(id) {
-    // console.log(id);
     if (!id)
       throw {
         code: 403,
