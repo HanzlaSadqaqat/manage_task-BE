@@ -4,7 +4,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./config/mongoDB";
 import router from "./api/routers";
-import session from "cookie-session";
+import session from "express-session";
 import passport from "passport";
 import "./config/passport";
 const app = express();
@@ -13,9 +13,13 @@ dotenv.config();
 
 app.use(
   session({
-    name: "session",
-    keys: [process.env.SECRET],
-    maxAge: 24 * 60 * 60 * 1000, // 1 day
+    secret: process.env.SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: false,
+      maxAge: 1000 * 60 * 60 * 24,
+    },
   })
 );
 

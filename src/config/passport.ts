@@ -45,14 +45,13 @@ passport.use(
     }
   )
 );
-
 // Google Strategy
 passport.use(
   new GoogleStrategy(
     {
       clientID: env.GOOGLE_CLIENT_ID,
       clientSecret: env.GOOGLE_CLIENT_SECRET,
-      callbackURL: `${env.FRONTEND_URL}/auth/google/callback`,
+      callbackURL: `${env.CLIENT_URL}/auth/google/callback`,
     },
     async (_accessToken, _refreshToken, profile, done) => {
       try {
@@ -83,39 +82,40 @@ passport.use(
 );
 
 // GitHub Strategy
-// passport.use(
-//   new GitHubStrategy(
-//     {
-//       clientID: env.GITHUB_CLIENT_ID,
-//       clientSecret: env.GITHUB_CLIENT_SECRET,
-//       callbackURL: `${env.FRONTEND_URL}/auth/github/callback`,
-//     },
-//     async (_accessToken, _refreshToken, profile, done) => {
-//       try {
-//         let user = await User.findOne({
-//           $or: [
-//             { email: profile.emails?.[0].value },
-//             { providerId: profile.id, provider: "github" },
-//           ],
-//         });
+passport.use(
+  new GitHubStrategy(
+    {
+      clientID: env.GITHUB_CLIENT_ID,
+      clientSecret: env.GITHUB_CLIENT_SECRET,
+      callbackURL: `${env.CLIENT_URL}/auth/github/callback`,
+      scope: ["user:email"],
+    },
+    async (_accessToken, _refreshToken, profile, done) => {
+      try {
+        let user = await User.findOne({
+          $or: [
+            { email: profile.emails?.[0].value },
+            { providerId: profile.id, provider: "github" },
+          ],
+        });
 
-//         if (!user) {
-//           user = await User.create({
-//             email: profile.emails?.[0].value,
-//             name: profile.displayName || profile.username,
-//             provider: "github",
-//             providerId: profile.id,
-//             avatar: profile.photos?.[0].value,
-//             verified: true,
-//           });
-//         }
+        if (!user) {
+          user = await User.create({
+            email: profile.emails?.[0].value,
+            name: profile.displayName || profile.username,
+            provider: "github",
+            providerId: profile.id,
+            avatar: profile.photos?.[0].value,
+            verified: true,
+          });
+        }
 
-//         done(null, user);
-//       } catch (error) {
-//         done(error, undefined);
-//       }
-//     }
-//   )
-// );
+        done(null, user);
+      } catch (error) {
+        done(error, undefined);
+      }
+    }
+  )
+);
 
 export default passport;

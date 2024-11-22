@@ -6,6 +6,7 @@ export const env = {
   SESSION_SECRET: process.env.SESSION_SECRET!,
   GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID!,
   GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET!,
+  CLIENT_URL: process.env.CLIENT_URL!,
   GITHUB_CLIENT_ID: process.env.GITHUB_CLIENT_ID!,
   GITHUB_CLIENT_SECRET: process.env.GITHUB_CLIENT_SECRET!,
   JWT_SECRET: process.env.JWT_SECRET!,

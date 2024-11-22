@@ -72,16 +72,16 @@ authRouter.post("/verify-email/:token", async (req: Request, res: Response) => {
 });
 
 // Google auth routes
-authRouter.get(
-  "/google",
-  passport.authenticate("google", {
-    scope: ["profile", "email"],
-  })
-);
+authRouter.get("/auth/google", passport.authenticate("google"));
 
 authRouter.get(
   "/google/callback",
-  passport.authenticate("google", { failureRedirect: "/login" }),
+  passport.authenticate("google", {
+    successRedirect:
+      `${process.env.FRONTEND_URL}/dashboard` || "http://localhost:3000/api",
+    scope: ["profile", "email"],
+    failureRedirect: "/login",
+  }),
   controller.oauthCallback
 );
 
