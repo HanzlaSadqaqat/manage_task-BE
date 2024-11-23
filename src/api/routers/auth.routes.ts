@@ -78,7 +78,7 @@ authRouter.get(
   "/google/callback",
   passport.authenticate("google", {
     successRedirect:
-      `${process.env.FRONTEND_URL}/dashboard` || "http://localhost:3000/api",
+      `${process.env.FRONTEND_URL}` || "http://localhost:3000/api",
     scope: ["profile", "email"],
     failureRedirect: "/login",
   }),
@@ -95,7 +95,11 @@ authRouter.get(
 
 authRouter.get(
   "/github/callback",
-  passport.authenticate("github", { failureRedirect: "/login" }),
+  passport.authenticate("github", {
+    successRedirect:
+      `${process.env.FRONTEND_URL}` || "http://localhost:3000/api",
+    failureRedirect: "/login",
+  }),
   controller.oauthCallback
 );
 
